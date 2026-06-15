@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:paddingTop="50dp"
     tools:context=".MainActivity">
 
     <TextView
@@ -44,53 +45,48 @@
         android:hint="Informe o telefone"
         android:inputType="number" />
 
-    <LinearLayout
+
+    <Button
+        android:id="@+id/btIncluir"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:onClick="btIncluirOnClick"
+        android:text="Incluir"
+        tools:ignore="OnClick" />
 
+    <Button
+        android:id="@+id/btAlterar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="btAlterarOnClick"
+        android:text="Alterar"
+        tools:ignore="OnClick" />
 
-        <Button
-            android:id="@+id/btIncluir"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="btIncluirOnClick"
-            android:text="Incluir"
-            tools:ignore="OnClick" />
+    <Button
+        android:id="@+id/btExcluir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="btExcluirOnClick"
+        android:text="Excluir"
+        tools:ignore="OnClick" />
 
-        <Button
-            android:id="@+id/btAlterar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="btAlterarOnClick"
-            android:text="Alterar"
-            tools:ignore="OnClick" />
+    <Button
+        android:id="@+id/btPesquisar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="btPesquisarOnClick"
+        android:text="Pesquisar"
+        tools:ignore="OnClick" />
 
-        <Button
-            android:id="@+id/btExcluir"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="btExcluirOnClick"
-            android:text="Excluir"
-            tools:ignore="OnClick" />
-
-        <Button
-            android:id="@+id/btPesquisar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="btPesquisarOnClick"
-            android:text="Pesquisar"
-            tools:ignore="OnClick" />
-
-        <Button
-            android:id="@+id/btListar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="btListarOnClick"
-            android:text="Listar"
-            tools:ignore="OnClick" />
-
-    </LinearLayout>
-
+    <Button
+        android:id="@+id/btListar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="btListarOnClick"
+        android:text="Listar"
+        tools:ignore="OnClick" />
 
 </LinearLayout>
+
+
+
