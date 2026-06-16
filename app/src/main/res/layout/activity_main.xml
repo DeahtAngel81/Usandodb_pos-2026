@@ -18,7 +18,7 @@
         android:id="@+id/etCod"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Informe o número do código"
+        android:hint="Informe o código"
         android:inputType="number" />
 
     <TextView
