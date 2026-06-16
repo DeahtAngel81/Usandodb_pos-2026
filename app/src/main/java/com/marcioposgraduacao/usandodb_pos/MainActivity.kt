@@ -1,6 +1,7 @@
 package com.marcioposgraduacao.usandodb_pos
 
 import android.content.ContentValues
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.widget.EditText
@@ -29,12 +30,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         banco = SQLiteDatabase.openOrCreateDatabase(
-            this.getDatabasePath("banco.db"), null
+            this.getDatabasePath(DB_NAME), null
         )
 
         banco.execSQL(
             "CREATE TABLE IF NOT EXISTS" +
-                    " cadastro( _id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    " ${TABLE_NAME}( _id INTEGER PRIMARY KEY AUTOINCREMENT," +
                     " nome TEXT, telefone TEXT) "
         )
 
@@ -69,7 +70,7 @@ class MainActivity : AppCompatActivity() {
         registro.put("nome", binding.etNome.text.toString())
         registro.put("telefone", binding.etTelefone.text.toString())
 
-        banco.insert("cadastro", null, registro)
+        banco.insert(TABLE_NAME, null, registro)
         Toast.makeText(
             this, "Inclusão efetuada com sucesso!",
             Toast.LENGTH_LONG
@@ -85,7 +86,7 @@ class MainActivity : AppCompatActivity() {
 
         banco.update(
 
-            "cadastro",
+            TABLE_NAME,
             registro,
             "_id = ${binding.etCod.text.toString()}",
             null
@@ -101,7 +102,7 @@ class MainActivity : AppCompatActivity() {
     private fun excluir() {
 
         banco.delete(
-            "cadastro",
+            TABLE_NAME,
             "_id = ${binding.etCod.text.toString()}",
             null
         )
@@ -115,12 +116,63 @@ class MainActivity : AppCompatActivity() {
 
     private fun pesquisar() {
 
+        val registros: Cursor = banco.query(
+            TABLE_NAME,
+            null,
+            "_id = ${binding.etCod.text.toString()}",
+            null,
+            null,
+            null,
+            null
+        )
 
+        if (registros.moveToNext()) {
+            binding.etNome.setText(registros.getString(NOME))
+            binding.etTelefone.setText(registros.getString(TELEFONE))
+        } else {
 
+            Toast.makeText(
+                this,
+                "Registro não encontrado!",
+                Toast.LENGTH_LONG
+            ).show()
+        }
     }
 
     private fun listar() {
 
+        val registros: Cursor = banco.query(
+            TABLE_NAME,
+            /*Para selecionar especifíco dado da coluna, o código seria
+             listOf("nome", etc) Porém com o null
+             coletamos todas as informações*/
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+        )
+
+        val saida = StringBuilder()
+
+        while (registros.moveToNext()) {
+            saida.append(registros.getString(NOME))
+            saida.append("\n")
+        }
+        Toast.makeText(
+            this,
+            saida.toString(),
+            Toast.LENGTH_LONG
+        ).show()
+    }
+
+    companion object {
+        private const val DB_NAME = "banco.db"
+        private const val TABLE_NAME = "cadastro"
+        private const val ID = 0
+        private const val NOME = 1
+        private const val TELEFONE = 2
     }
 
 }
