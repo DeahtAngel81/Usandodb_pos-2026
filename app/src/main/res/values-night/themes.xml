@@ -3,8 +3,8 @@
     <style name="Base.Theme.Usandodb_pos" parent="Theme.MaterialComponents.Light.DarkActionBar.Bridge">
         <!-- Customize your dark theme here. -->
         <!-- Primary brand color -->
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimary">@color/red_900</item>
+        <item name="colorPrimaryVariant">@color/teal_200</item>
         <item name="colorOnPrimary">@color/black</item>
 
         <!-- Secundary brand color -->
