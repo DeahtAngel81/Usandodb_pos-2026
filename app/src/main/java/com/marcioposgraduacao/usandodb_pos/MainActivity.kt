@@ -4,7 +4,6 @@ import android.content.ContentValues
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
-import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -30,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         banco = SQLiteDatabase.openOrCreateDatabase(
-            this.getDatabasePath(DB_NAME), null
+            this.getDatabasePath(DATABASE_NAME), null
         )
 
         banco.execSQL(
@@ -88,7 +87,7 @@ class MainActivity : AppCompatActivity() {
 
             TABLE_NAME,
             registro,
-            "_id = ${binding.etCod.text.toString()}",
+            "_id = ${binding.etCod.text}",
             null
 
         )
@@ -103,7 +102,7 @@ class MainActivity : AppCompatActivity() {
 
         banco.delete(
             TABLE_NAME,
-            "_id = ${binding.etCod.text.toString()}",
+            "_id = ${binding.etCod.text}",
             null
         )
 
@@ -119,7 +118,7 @@ class MainActivity : AppCompatActivity() {
         val registros: Cursor = banco.query(
             TABLE_NAME,
             null,
-            "_id = ${binding.etCod.text.toString()}",
+            "_id = ${binding.etCod.text}",
             null,
             null,
             null,
@@ -136,6 +135,8 @@ class MainActivity : AppCompatActivity() {
                 "Registro não encontrado!",
                 Toast.LENGTH_LONG
             ).show()
+
+            registros.close()
         }
     }
 
@@ -165,14 +166,18 @@ class MainActivity : AppCompatActivity() {
             saida.toString(),
             Toast.LENGTH_LONG
         ).show()
+
+        registros.close()
     }
 
     companion object {
-        private const val DB_NAME = "banco.db"
+        private const val DATABASE_NAME = "banco.db"
+        private const val DATABASE_VERSION = 1
         private const val TABLE_NAME = "cadastro"
         private const val ID = 0
         private const val NOME = 1
         private const val TELEFONE = 2
     }
+
 
 }

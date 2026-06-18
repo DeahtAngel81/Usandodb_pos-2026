@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Usandodb_pos</string>
+    <string name="cod">Cod:</string>
+    <string name="informe_o_codigo">Informe o código</string>
+    <string name="informe_o_nome">Informe o nome</string>
+    <string name="nome">nome:</string>
+    <string name="telefone">Telefone:</string>
+    <string name="informe_o_telefone">Informe o telefone</string>
+    <string name="incluir">Incluir</string>
+    <string name="alterar">Alterar</string>
+    <string name="excluir">Excluir</string>
+    <string name="pesquisar">Pesquisar</string>
+    <string name="listar">Listar</string>
 </resources>
