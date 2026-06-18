@@ -22,7 +22,6 @@ class DatabaseHandler(context: Context) :
         onCreate(bd)
     }
 
-
     fun incluir(cadastro: Cadastro) {
 
         val banco = this.writableDatabase
@@ -34,7 +33,7 @@ class DatabaseHandler(context: Context) :
         banco.insert(TABLE_NAME, null, registro)
     }
 
-     fun alterar(cadastro: Cadastro) {
+    fun alterar(cadastro: Cadastro) {
         val banco = this.writableDatabase
 
         val registro = ContentValues()
@@ -48,7 +47,7 @@ class DatabaseHandler(context: Context) :
         )
     }
 
-     fun excluir(id: Int) {
+    fun excluir(id: Int) {
 
         val banco = this.writableDatabase
         banco.delete(
@@ -56,7 +55,7 @@ class DatabaseHandler(context: Context) :
         )
     }
 
-     fun pesquisar(id: Int): Cadastro? {
+    fun pesquisar(id: Int): Cadastro? {
 
         val banco = this.writableDatabase
 
@@ -81,7 +80,7 @@ class DatabaseHandler(context: Context) :
 
     }
 
-     fun listar(): MutableList<Cadastro> {
+    fun listar(): MutableList<Cadastro> {
 
         val banco = this.writableDatabase
 
@@ -106,7 +105,7 @@ class DatabaseHandler(context: Context) :
         return saida
     }
 
-     fun listarCursor(): Cursor  {
+    fun listarCursor(): Cursor {
 
         val banco = this.writableDatabase
 

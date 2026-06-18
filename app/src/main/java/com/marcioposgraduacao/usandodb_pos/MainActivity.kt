@@ -1,5 +1,6 @@
 package com.marcioposgraduacao.usandodb_pos
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -131,7 +132,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun listar() {
 
-        val registros: MutableList<Cadastro> = banco.listar()
+        val intent = Intent(this, ListarActivity:: class.java)
+        startActivity(intent)
+    /*  val registros: MutableList<Cadastro> = banco.listar()
 
         val saida = StringBuilder()
 
@@ -144,6 +147,7 @@ class MainActivity : AppCompatActivity() {
             this,
             saida.toString(),
             Toast.LENGTH_LONG
-        ).show()
+        ).show()*/
+
+   }
     }
-}
