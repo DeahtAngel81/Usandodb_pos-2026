@@ -1,16 +1,21 @@
 package com.marcioposgraduacao.usandodb_pos
 
+import android.database.Cursor
 import android.os.Bundle
 import android.widget.ArrayAdapter
+import android.widget.SimpleCursorAdapter
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.marcioposgraduacao.usandodb_pos.database.DatabaseHandler
 import com.marcioposgraduacao.usandodb_pos.databinding.ActivityListarBinding
 
 class ListarActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityListarBinding
+    private lateinit var banco: DatabaseHandler
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -23,13 +28,18 @@ class ListarActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        // origem de dados
-        val registros : List<String> = listOf<String>("Brasil", "Marrocos", "Haiti", "Escocia")
 
-        val adapter = ArrayAdapter<String>(
+        banco = DatabaseHandler(this)
+
+        val registros: Cursor = banco.listarCursor()
+
+        val adapter = SimpleCursorAdapter(
             this,
-            android.R.layout.simple_list_item_1,
-            registros
+            android.R.layout.simple_list_item_2,
+            registros,
+            arrayOf("nome", "telefone"),
+            intArrayOf(android.R.id.text1, android.R.id.text2),
+            0
         )
 
         binding.lvCadastro.adapter = adapter
