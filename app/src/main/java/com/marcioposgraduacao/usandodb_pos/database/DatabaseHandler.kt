@@ -5,7 +5,6 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.widget.Toast
 import com.marcioposgraduacao.usandodb_pos.entity.Cadastro
 
 class DatabaseHandler(context: Context) :
@@ -24,7 +23,7 @@ class DatabaseHandler(context: Context) :
     }
 
 
-    private fun incluir(cadastro: Cadastro) {
+    fun incluir(cadastro: Cadastro) {
 
         val banco = this.writableDatabase
 
@@ -35,7 +34,7 @@ class DatabaseHandler(context: Context) :
         banco.insert(TABLE_NAME, null, registro)
     }
 
-    private fun alterar(cadastro: Cadastro) {
+     fun alterar(cadastro: Cadastro) {
         val banco = this.writableDatabase
 
         val registro = ContentValues()
@@ -49,7 +48,7 @@ class DatabaseHandler(context: Context) :
         )
     }
 
-    private fun excluir(id: Int) {
+     fun excluir(id: Int) {
 
         val banco = this.writableDatabase
         banco.delete(
@@ -57,7 +56,7 @@ class DatabaseHandler(context: Context) :
         )
     }
 
-    private fun pesquisar(id: Int): Cadastro? {
+     fun pesquisar(id: Int): Cadastro? {
 
         val banco = this.writableDatabase
 
@@ -76,13 +75,13 @@ class DatabaseHandler(context: Context) :
 
             return cadastro
         } else {
-
+            registros.close()
             return null
         }
-        registros.close()
+
     }
 
-    private fun listar(): MutableList<Cadastro> {
+     fun listar(): MutableList<Cadastro> {
 
         val banco = this.writableDatabase
 
@@ -107,7 +106,7 @@ class DatabaseHandler(context: Context) :
         return saida
     }
 
-    private fun listarCursor(): Cursor  {
+     fun listarCursor(): Cursor  {
 
         val banco = this.writableDatabase
 
