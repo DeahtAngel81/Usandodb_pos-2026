@@ -124,25 +124,5 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun listar() {
 
-        val intent = Intent(this, ListarActivity::class.java)
-        startActivity(intent)
-
-        /*  val registros: MutableList<Cadastro> = banco.listar()
-
-            val saida = StringBuilder()
-
-            registros.forEach { cadastro ->
-                saida.append(cadastro.nome)
-                saida.append("\n")
-            }
-
-            Toast.makeText(
-                this,
-                saida.toString(),
-                Toast.LENGTH_LONG
-            ).show()*/
-
-    }
 }
