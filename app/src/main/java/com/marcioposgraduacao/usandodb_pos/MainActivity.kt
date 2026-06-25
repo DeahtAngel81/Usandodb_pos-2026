@@ -3,6 +3,7 @@ package com.marcioposgraduacao.usandodb_pos
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -31,12 +32,15 @@ class MainActivity : AppCompatActivity() {
 
         banco = DatabaseHandler(this)
 
-        if (intent.getIntExtra("id", 0) > 0)
+        if (intent.getIntExtra("id", 0) > 0) {
             binding.etCod.setText(intent.getIntExtra("id", 0).toString())
-        binding.etNome.setText(intent.getStringExtra("nome"))
-        binding.etTelefone.setText(intent.getStringExtra("telefone"))
+            binding.etNome.setText(intent.getStringExtra("nome"))
+            binding.etTelefone.setText(intent.getStringExtra("telefone"))
 
-
+        } else {
+            binding.btExcluir.visibility = View.GONE
+            binding.btPesquisar.visibility = View.GONE
+        }
 
         binding.btAlterar.setOnClickListener {
             alterar()

@@ -1,5 +1,6 @@
 package com.marcioposgraduacao.usandodb_pos
 
+import android.content.Intent
 import android.database.Cursor
 import android.os.Bundle
 import android.widget.ArrayAdapter
@@ -30,7 +31,18 @@ class ListarActivity : AppCompatActivity() {
             insets
         }
 
+        binding.btIncluir.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+
+        }
+
         banco = DatabaseHandler(this)
+    }
+
+
+    override fun onStart() {
+        super.onStart()
 
         val registros: MutableList<Cadastro> = banco.listar()
 
@@ -41,4 +53,6 @@ class ListarActivity : AppCompatActivity() {
 
         binding.lvCadastro.adapter = adapter
     }
+
 }
+
