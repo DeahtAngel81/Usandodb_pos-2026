@@ -1,5 +1,6 @@
 package com.marcioposgraduacao.usandodb_pos
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -15,6 +16,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var banco: DatabaseHandler
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -29,9 +31,12 @@ class MainActivity : AppCompatActivity() {
 
         banco = DatabaseHandler(this)
 
-        binding.btIncluir.setOnClickListener {
-            incluir()
-        }
+        if (intent.getIntExtra("id", 0) > 0)
+            binding.etCod.setText(intent.getIntExtra("id", 0).toString())
+        binding.etNome.setText(intent.getStringExtra("nome"))
+        binding.etTelefone.setText(intent.getStringExtra("telefone"))
+
+
 
         binding.btAlterar.setOnClickListener {
             alterar()
@@ -44,29 +49,6 @@ class MainActivity : AppCompatActivity() {
         binding.btPesquisar.setOnClickListener {
             pesquisar()
         }
-
-        binding.btListar.setOnClickListener {
-            listar()
-        }
-    }
-
-    /*Sintaxe SQL é essa:
-    banco.execSQL("INSERT INTO cadastro VALUES (\"maria", "56136137")")
-       banco.execSQL("INSERT INTO cadastro VALUES (\"maria", "56136137")")*/
-    private fun incluir() {
-
-        val cadastro = Cadastro(
-            0,
-            binding.etNome.text.toString(),
-            binding.etTelefone.text.toString()
-        )
-        banco.incluir(cadastro)
-
-        Toast.makeText(
-            this, "Inclusão efetuada com sucesso!",
-            Toast.LENGTH_LONG
-        ).show()
-
     }
 
     private fun alterar() {
@@ -74,21 +56,28 @@ class MainActivity : AppCompatActivity() {
         val id = binding.etCod.text.toString().toIntOrNull()
 
         if (id == null) {
-            binding.etCod.error = "Digite um código válido"
-            return
+            val cadastro = Cadastro(
+                0,
+                binding.etNome.text.toString(),
+                binding.etTelefone.text.toString()
+            )
+            banco.incluir(cadastro)
+        } else {
+
+            val cadastro = Cadastro(
+                id,
+                binding.etNome.text.toString(),
+                binding.etTelefone.text.toString()
+            )
+            banco.alterar(cadastro)
         }
 
-        val cadastro = Cadastro(
-            id,
-            binding.etNome.text.toString(),
-            binding.etTelefone.text.toString()
-        )
-        banco.alterar(cadastro)
-
         Toast.makeText(
-            this, "Alteração efetuada com sucesso!",
+            this, "Operação efetuada com sucesso!",
             Toast.LENGTH_LONG
         ).show()
+
+        finish()
     }
 
     private fun excluir() {
@@ -100,10 +89,15 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
+        banco.excluir(id)
+
         Toast.makeText(
-            this, "Exclusão efetuada com sucesso!",
+            this,
+            "Exclusão efetuada com sucesso!",
             Toast.LENGTH_LONG
         ).show()
+
+        finish()
     }
 
     private fun pesquisar() {
@@ -132,22 +126,23 @@ class MainActivity : AppCompatActivity() {
 
     private fun listar() {
 
-        val intent = Intent(this, ListarActivity:: class.java)
+        val intent = Intent(this, ListarActivity::class.java)
         startActivity(intent)
-    /*  val registros: MutableList<Cadastro> = banco.listar()
 
-        val saida = StringBuilder()
+        /*  val registros: MutableList<Cadastro> = banco.listar()
 
-        registros.forEach { cadastro ->
-            saida.append(cadastro.nome)
-            saida.append("\n")
-        }
+            val saida = StringBuilder()
 
-        Toast.makeText(
-            this,
-            saida.toString(),
-            Toast.LENGTH_LONG
-        ).show()*/
+            registros.forEach { cadastro ->
+                saida.append(cadastro.nome)
+                saida.append("\n")
+            }
 
-   }
+            Toast.makeText(
+                this,
+                saida.toString(),
+                Toast.LENGTH_LONG
+            ).show()*/
+
     }
+}

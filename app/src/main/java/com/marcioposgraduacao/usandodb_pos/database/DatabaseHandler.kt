@@ -11,12 +11,16 @@ class DatabaseHandler(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     override fun onCreate(bd: SQLiteDatabase?) {
         bd?.execSQL(
-            "CREATE TABLE IF NOT EXISTS" + " ${TABLE_NAME}( _id INTEGER PRIMARY KEY AUTOINCREMENT," + " nome TEXT, telefone TEXT, email TEXT) "
+            "CREATE TABLE IF NOT EXISTS" +
+                    " ${TABLE_NAME}( _id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    " nome TEXT, telefone TEXT) "
         )
     }
 
     override fun onUpgrade(
-        bd: SQLiteDatabase?, oldVersion: Int, newVersion: Int
+        bd: SQLiteDatabase?,
+        oldVersion: Int,
+        newVersion: Int
     ) {
         bd?.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
         onCreate(bd)
@@ -41,20 +45,21 @@ class DatabaseHandler(context: Context) :
         registro.put("telefone", cadastro.telefone)
 
         banco.update(
-
-            TABLE_NAME, registro, "_id = ${cadastro.id}", null
-
+            TABLE_NAME,
+            registro,
+            "_id = ${cadastro.id}",
+            null
         )
     }
-
     fun excluir(id: Int) {
 
         val banco = this.writableDatabase
         banco.delete(
-            TABLE_NAME, "_id = $id", null
+            TABLE_NAME,
+            "_id = $id",
+            null
         )
     }
-
     fun pesquisar(id: Int): Cadastro? {
 
         val banco = this.writableDatabase
@@ -77,9 +82,7 @@ class DatabaseHandler(context: Context) :
             registros.close()
             return null
         }
-
     }
-
     fun listar(): MutableList<Cadastro> {
 
         val banco = this.writableDatabase
@@ -116,7 +119,6 @@ class DatabaseHandler(context: Context) :
 
         return registros
     }
-
     companion object {
         private const val DATABASE_NAME = "banco.db"
         private const val DATABASE_VERSION = 1

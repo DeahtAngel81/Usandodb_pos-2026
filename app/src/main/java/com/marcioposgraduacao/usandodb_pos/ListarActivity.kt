@@ -20,7 +20,6 @@ class ListarActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityListarBinding.inflate(layoutInflater)
 
         enableEdgeToEdge()
@@ -37,7 +36,8 @@ class ListarActivity : AppCompatActivity() {
 
         val adapter = ElementoListaAdapter(
             this,
-            registros)
+            registros
+        )
 
         binding.lvCadastro.adapter = adapter
     }
