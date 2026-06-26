@@ -19,7 +19,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/informe_o_codigo"
-        android:enabled="false"
         android:importantForAutofill="no"
         android:inputType="number" />
 
