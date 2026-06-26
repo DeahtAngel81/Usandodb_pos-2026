@@ -13,17 +13,18 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 import com.marcioposgraduacao.usandodb_pos.database.DatabaseHandler
 import com.marcioposgraduacao.usandodb_pos.databinding.ActivityMainBinding
 import com.marcioposgraduacao.usandodb_pos.entity.Cadastro
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var banco: DatabaseHandler
 
-    val db = Firebase.firestore
 
     @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,94 +66,56 @@ class MainActivity : AppCompatActivity() {
 
     private fun alterar() {
 
-        val cadastro: HashMap<String, String> = hashMapOf(
-            "nome" to binding.etNome.text.toString(),
-            "telefone" to binding.etTelefone.text.toString(),
+        lifecycleScope.launch {
 
-        )
+            val id = binding.etCod.text.toString().toIntOrNull()
 
-        db
-            .collection("Cadastramento")
-            .document(binding.etCod.text.toString())
-            .set(cadastro)
-            .addOnSuccessListener {
-                makeText(
-                    this, "Operação efetuada com sucesso!",
-                    Toast.LENGTH_LONG
-                ).show()
+            if (id == null) {
+                val cadastro = Cadastro(
+                    0,
+                    binding.etNome.text.toString(),
+                    binding.etTelefone.text.toString()
+                )
+                banco.incluir(cadastro)
+            } else {
 
-                finish()
+                val cadastro = Cadastro(
+                    id,
+                    binding.etNome.text.toString(),
+                    binding.etTelefone.text.toString()
+                )
+                banco.alterar(cadastro)
+        }
+            Toast.makeText(
+                this@MainActivity,
+                "Operação executada com sucesso.",
+                Toast.LENGTH_LONG
+            ).show()
 
-            }
-            .addOnFailureListener { e ->
-                Toast.makeText(this,
-                    "Erro ${e.message}", Toast.LENGTH_LONG).show()
-            }
-
-
-
-
-        /*val id = binding.etCod.text.toString().toIntOrNull()
-
-        if (id == null) {
-            val cadastro = Cadastro(
-                0,
-                binding.etNome.text.toString(),
-                binding.etTelefone.text.toString()
-            )
-            banco.incluir(cadastro)
-        } else {
-
-            val cadastro = Cadastro(
-                id,
-                binding.etNome.text.toString(),
-                binding.etTelefone.text.toString()
-            )
-            banco.alterar(cadastro)
-        }*/
-
-
+            finish()
+        }
     }
 
     private fun excluir() {
 
-        db
-            .collection("Cadastramento")
-            .document(binding.etCod.text.toString())
-            .delete()
-            .addOnSuccessListener {
+        lifecycleScope.launch {
+            val id = binding.etCod.text.toString().toIntOrNull()
 
-                makeText(
-                    this, "Operação efetuada com sucesso!",
+            if (id == null) {
+                binding.etCod.error = "Digite um código válido"
+            } else {
+
+                banco.excluir(id)
+
+                Toast.makeText(
+                    this@MainActivity,
+                    "Exclusão efetuada com sucesso.",
                     Toast.LENGTH_LONG
                 ).show()
 
                 finish()
-
             }
-            .addOnFailureListener { e ->
-                Toast.makeText(this,
-                    "Erro ${e.message}", Toast.LENGTH_LONG).show()
-
-            }
-
-
-        /*val id = binding.etCod.text.toString().toIntOrNull()
-
-        if (id == null) {
-            binding.etCod.error = "Digite Código válido"
-            return
         }
-
-        banco.excluir(id)
-
-        makeText(
-            this,
-            "Exclusão efetuada com sucesso!",
-            Toast.LENGTH_LONG
-        ).show()*/
-
-        finish()
     }
 
     private fun pesquisar() {
@@ -174,46 +137,29 @@ class MainActivity : AppCompatActivity() {
 
             } else {
 
-                db
-                    .collection("Cadastramento")
-                    .document(id.toString())
-                    .get()
-                    .addOnSuccessListener { result ->
+                lifecycleScope.launch {
+
+                    val cadastro = banco.pesquisar(id)
+
+                    if (cadastro != null) {
                         binding.etCod.setText(etCodPesquisa.text.toString())
-                        binding.etNome.setText(result.get("nome").toString())
-                        binding.etTelefone.setText(result.get("telefone").toString())
-                    }
-                    .addOnFailureListener { e ->
-                        makeText(
-                            this,
-                            "Registro não encontrado!",
+                        binding.etNome.setText(cadastro.nome)
+                        binding.etTelefone.setText(cadastro.telefone)
+                    } else {
+                        Toast.makeText(
+                            this@MainActivity,
+                            "Pessoa não encontrada...",
                             Toast.LENGTH_LONG
                         ).show()
-
                     }
-               /* val cadastro = banco.pesquisar(id)
-
-                if (cadastro != null) {
-                    binding.etCod.setText(etCodPesquisa.text.toString())
-                    binding.etNome.setText(cadastro.nome)
-                    binding.etTelefone.setText(cadastro.telefone)
-                } else {
-
-                    makeText(
-                        this,
-                        "Registro não encontrado!",
-                        Toast.LENGTH_LONG
-                    ).show()*/
-
+                }
             }
-
         }
         )
 
         dialog.setView(etCodPesquisa)
         dialog.show()
 
-
     }
-
 }
+

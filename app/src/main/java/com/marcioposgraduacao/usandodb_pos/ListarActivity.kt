@@ -9,10 +9,12 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import com.marcioposgraduacao.usandodb_pos.adapter.ElementoListaAdapter
 import com.marcioposgraduacao.usandodb_pos.database.DatabaseHandler
 import com.marcioposgraduacao.usandodb_pos.databinding.ActivityListarBinding
 import com.marcioposgraduacao.usandodb_pos.entity.Cadastro
+import kotlinx.coroutines.launch
 
 class ListarActivity : AppCompatActivity() {
 
@@ -44,15 +46,16 @@ class ListarActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        val registros: MutableList<Cadastro> = banco.listar()
+        lifecycleScope.launch {
+            val registros: MutableList<Cadastro> = banco.listar()
 
-        val adapter = ElementoListaAdapter(
-            this,
-            registros
-        )
+            val adapter = ElementoListaAdapter(
+                this@ListarActivity,
+                registros
+            )
 
-        binding.lvCadastro.adapter = adapter
+            binding.lvCadastro.adapter = adapter
+        }
     }
-
 }
 
